@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import NoteCard from "../components/NoteCard";
+import api from "../lib/axios";
 
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
@@ -10,7 +11,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/notes");
+        const res = await api.get("/notes");
         setNotes(res.data);
       } catch (error) {
         console.log("Error fetching data");
@@ -32,7 +33,7 @@ const HomePage = () => {
         {notes.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {notes.map((note) => (
-              <NoteCard key={note._id} note={note} />
+              <NoteCard key={note._id} note={note} setNotes={setNotes} />
             ))}
           </div>
         )}
